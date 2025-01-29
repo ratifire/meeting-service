@@ -37,14 +37,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build React with Express (server-build)
+      - name: Build React
         run: |
-          REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }} \
-          REACT_APP_WS_URL=${{ vars.REACT_APP_WS_URL }} \
-          npm run server-build
+          npm install
 
-      - name: Verify server-build contents
-        run: ls -l server-build
 
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4
