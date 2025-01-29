@@ -42,10 +42,10 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
-    - name: Select matcher configuration
+    - name: Select meeting configuration
       run: |
         echo "Selecting backend configuration for environment: dev"
-        BACKEND_FILE="/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend"
+        BACKEND_FILE="/home/runner/work/meeting-service/meeting-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend"
         if [[ ! -f "$BACKEND_FILE" ]]; then
           echo "Error: Backend file $BACKEND_FILE does not exist."
           exit 1
@@ -55,14 +55,14 @@ jobs:
     - name: Select .tfvars file based on environment
       run: |
         echo "Selecting .tfvars file for environment: ${{ github.event.inputs.environment }}"
-        if [[ ! -f "/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.tfvars" ]]; then
-          echo "Error: File ${{ github.event.inputs.environment }}.tfvars does not exist in /home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}."
+        if [[ ! -f "/home/runner/work/meeting-service/meeting-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.tfvars" ]]; then
+          echo "Error: File ${{ github.event.inputs.environment }}.tfvars does not exist in /home/runner/work/meeting-service/meeting-service/${{ env.working-directory }}."
           exit 1
         fi
 
     - name: Terraform Init
       run: |
-        terraform init -backend-config="/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
+        terraform init -backend-config="/home/runner/work/meeting-service/meeting-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
 
     - name: Terraform Format
       run: terraform fmt -check
