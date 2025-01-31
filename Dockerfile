@@ -6,7 +6,7 @@ WORKDIR /src
 
 # Copy package.json and .env dependencies
 COPY package.json .
-#COPY .env.template ./.env
+COPY .env ./.env
 
 # Install necessary system packages and dependencies
 RUN apk add --no-cache \
