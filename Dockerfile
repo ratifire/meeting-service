@@ -20,5 +20,7 @@ RUN apk add --no-cache \
 COPY app app
 COPY public public
 
+EXPOSE 3000
+
 # Set default command to start the application
 CMD ["npm", "start"]
