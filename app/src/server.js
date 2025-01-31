@@ -414,9 +414,6 @@ app.post('*', function (next) {
     next();
 });
 
-app.get('/health', (req, res) => res.status(200).send('OK'));
-
-
 // GET start from here...
 app.get('*', function (next) {
     next();
