@@ -10,9 +10,9 @@ resource "aws_ecs_task_definition" "task_definition" {
       memory            = 819,
       memoryReservation = 819,
       healthCheck : {
-        "command" : ["CMD-SHELL", "curl -f https://localhost/ || exit 1"],
-        "interval" : 120,
-        "timeout" : 10,
+        "command" : ["CMD-SHELL", "curl -f https://localhost:3000/ || exit 1"],
+        "interval" : 60,
+        "timeout" : 50,
         "retries" : 2
       },
       portMappings = [
