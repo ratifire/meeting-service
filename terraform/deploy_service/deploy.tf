@@ -69,9 +69,9 @@ resource "aws_autoscaling_group" "ecs_meeting_asg" {
     id      = aws_launch_template.ecs_meeting_launch.id
     version = aws_launch_template.ecs_meeting_launch.latest_version
   }
-  min_size                  = 2
+  min_size                  = 1
   max_size                  = 2
-  desired_capacity          = 2
+  desired_capacity          = 1
   health_check_type         = "EC2"
   health_check_grace_period = 180
   vpc_zone_identifier       = data.aws_subnets.default_subnets.ids
@@ -108,7 +108,7 @@ resource "aws_ecs_service" "meeting_services" {
   cluster                            = var.meeting_cluster_name
   task_definition                    = aws_ecs_task_definition.task_definition.arn
   scheduling_strategy                = "REPLICA"
-  desired_count                      = 2
+  desired_count                      = 1
   force_new_deployment               = true
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent         = 200
@@ -156,7 +156,7 @@ resource "aws_lb_target_group" "http_ecs_meeting_tg" {
     unhealthy_threshold = 2
     interval            = 60
     protocol            = "HTTP"
-    path                = "/"
+    path                = "/health"
     matcher             = "200-305"
   }
 }
