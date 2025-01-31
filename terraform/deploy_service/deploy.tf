@@ -156,6 +156,6 @@ resource "aws_lb_target_group" "http_ecs_meeting_tg" {
     unhealthy_threshold = 2
     interval            = 60
     protocol            = "HTTP"
-    path                = "/health"
+    path                = "/api/v1/docs"
   }
 }
