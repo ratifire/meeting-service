@@ -414,7 +414,7 @@ app.post('*', function (next) {
     next();
 });
 
-app.get('/health', (req, res) => res.status(200).send('OK'));
+app.get('/health', (req, res) => res.status(200).send({ status: 200, message: "I`m a OK" }));
 
 
 // GET start from here...
