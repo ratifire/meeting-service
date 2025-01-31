@@ -30,7 +30,7 @@ variable "cidr_blocks" {
 
 variable "meeting_port" {
   description = "Port number on which back service is listening"
-  default     = 8080
+  default     = 3000
 }
 
 variable "s3_bucket_name" {
