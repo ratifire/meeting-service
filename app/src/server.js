@@ -441,9 +441,9 @@ app.get("/health", (req, res) => {
 });
 
 // GET start from here...
-app.get('*', function (next) {
-  next();
-});
+// app.get('*', function (next) {
+//   next();
+// });
 
 // Remove trailing slashes in url handle bad requests
 app.use((err, req, res, next) => {
