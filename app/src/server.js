@@ -436,7 +436,8 @@ app.post('*', function (next) {
 
 app.get("/health", (req, res) => {
   res.set("Cache-Control", "no-store");
-  res.status(200).json({status: 200, massage: "I`m OK"});
+  res.set("Access-Control-Allow-Origin", "*");
+  res.status(200).json({ status: 200, message: "I`m OK" });
 });
 
 // GET start from here...
