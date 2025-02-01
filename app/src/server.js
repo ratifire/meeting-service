@@ -435,6 +435,7 @@ app.post('*', function (next) {
 });
 
 app.get('/health', (req, res) => {
+  log.info('health la la blaha');
   res.status(200).json({ status: 200, message: "I`m OK" });
 });
 
