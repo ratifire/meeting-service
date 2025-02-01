@@ -435,8 +435,26 @@ app.post('*', function (next) {
 });
 
 app.get('/health', (req, res) => {
-  const domain = req.hostname;
-  log.info(`Zapros /health prishol s domena: ${domain}`);
+  const requestInfo = {
+    method: req.method,                // HTTP-метод (GET, POST и т.д.)
+    url: req.url,                      // URL запроса
+    originalUrl: req.originalUrl,      // Исходный URL запроса (без учёта монтирования роутеров)
+    path: req.path,                    // Путь запроса
+    query: req.query,                  // Параметры из query строки
+    params: req.params,                // Параметры маршрута (если они есть)
+    headers: req.headers,              // Заголовки запроса
+    hostname: req.hostname,            // Имя хоста (без порта)
+    ip: req.ip,                        // IP-адрес клиента
+    protocol: req.protocol,            // Протокол (http или https)
+    secure: req.secure,                // Флаг, указывающий на безопасное соединение (https)
+    subdomains: req.subdomains,        // Поддомены, если они есть
+    // Если используется middleware для работы с cookies, можно добавить:
+    cookies: req.cookies || null,
+    // Если используются сессии, можно добавить:
+    session: req.session || null,
+  };
+
+  log.info('Nasha INFO:', requestInfo);
   res.status(200).json({ status: 200, message: "I'm OK" });
 });
 
