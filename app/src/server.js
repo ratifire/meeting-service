@@ -434,16 +434,14 @@ app.post('*', function (next) {
   next();
 });
 
-app.get("/health", (req, res) => {
-  res.set("Cache-Control", "no-store");
-  res.set("Access-Control-Allow-Origin", "*");
+app.get('/health', (req, res) => {
   res.status(200).json({ status: 200, message: "I`m OK" });
 });
 
 // GET start from here...
-// app.get('*', function (next) {
-//   next();
-// });
+app.get('*', function (next) {
+  next();
+});
 
 // Remove trailing slashes in url handle bad requests
 app.use((err, req, res, next) => {
