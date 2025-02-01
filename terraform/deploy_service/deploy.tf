@@ -157,6 +157,5 @@ resource "aws_lb_target_group" "http_ecs_meeting_tg" {
     interval            = 60
     protocol            = "HTTP"
     path                = "/health"
-    matcher             = "200-305"
   }
 }
