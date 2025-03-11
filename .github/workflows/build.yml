@@ -1,6 +1,7 @@
 name: Build
 
 env:
+  ECR_REPOSITORY: vars.ECR_REPOSITORY
   IMAGE_TAG: ${{ github.sha }}
 
 on:
