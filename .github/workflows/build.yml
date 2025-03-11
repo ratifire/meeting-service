@@ -1,7 +1,6 @@
 name: Build
 
 env:
-  ECR_REPOSITORY: meeting-service
   IMAGE_TAG: ${{ github.sha }}
 
 on:
