@@ -2,7 +2,7 @@ region = "eu-north-1"
 
 domain_name = "skillzzy.com"
 
-subdomain_name = "meeting-prod.skillzzy.com"
+subdomain_name = "meeting.skillzzy.com"
 
 vpc = "vpc-0032e90317069a534"
 
