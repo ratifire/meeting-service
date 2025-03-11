@@ -35,3 +35,5 @@ aws_ecs_task_definition_family = "meeting-td"
 meeting_cluster_name = "meeting-cluster"
 
 meeting_container_name = "meeting-container"
+
+deploy_profile = "dev"

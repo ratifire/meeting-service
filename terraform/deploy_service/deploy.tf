@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "meeting_cluster" {
 }
 
 resource "aws_launch_template" "ecs_meeting_launch" {
-  name_prefix            = "ecs_meeting_launch"
+  name_prefix            = "ecs_meeting_launch_${var.deploy_profile}"
   image_id               = data.aws_ami.aws_linux_latest_ecs.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [data.aws_security_group.vpc_meeting_security_group.id]

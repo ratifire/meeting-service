@@ -105,3 +105,7 @@ variable "aws_ecs_task_definition_family" {
   type        = string
 }
 
+variable "deploy_profile" {
+  type        = string
+}
+
