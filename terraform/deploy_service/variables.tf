@@ -24,7 +24,7 @@ variable "image_tag" {
 
 variable "meeting_port" {
   description = "Port number on which back service is listening"
-  default     = 8080
+  default     = 3000
 }
 
 variable "subdomain_name" {
@@ -103,5 +103,9 @@ variable "aws_lb_name" {
 variable "aws_ecs_task_definition_family" {
   description = "The name of the task definition to use"
   type        = string
+}
+
+variable "deploy_profile" {
+  type = string
 }
 
