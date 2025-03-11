@@ -142,7 +142,7 @@ resource "aws_lb" "meeting_ecs_alb" {
 }
 
 resource "aws_lb_target_group" "http_ecs_meeting_tg" {
-  name                 = "var.target_group_name_${var.deploy_profile}"
+  name                 = "${var.target_group_name}-${var.deploy_profile}"
   port                 = var.meeting_port
   protocol             = "HTTP"
   vpc_id               = data.aws_vpcs.all_vpcs.ids[0]
