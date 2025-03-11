@@ -23,6 +23,7 @@ jobs:
   terraform:
     name: Terraform deploy service to AWS
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'dev_new' }}
     env:
       working-directory: terraform/deploy_service
     defaults:
@@ -54,7 +55,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          terraform init -backend-config="/home/runner/work/matcher-service/matcher-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
+          terraform init -backend-config="/home/runner/work/meeting-service/meeting-service/${{ env.working-directory }}/${{ github.event.inputs.environment }}.backend" -reconfigure
 
       - name: Terraform Format
         run: terraform fmt -check
