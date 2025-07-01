@@ -1,3 +1,0 @@
-bucket  = "skillzzy-meeting-terraform-qa"
-key     = "AWS/build-prod-meeting-deploy-tstates/terraform.tfstate"
-region  = "eu-north-1"
