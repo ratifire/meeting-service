@@ -12,8 +12,8 @@ on:
         type: choice
         options:
           - dev
-          - qa
           - prod
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

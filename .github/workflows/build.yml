@@ -1,20 +1,19 @@
 name: Build
 
 env:
-  ECR_REPOSITORY: meeting-service
+  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
   IMAGE_TAG: ${{ github.sha }}
 
 on:
   workflow_dispatch:
     inputs:
       environment:
-        description: 'Select environment to deploy (prod, dev or qa)'
+        description: 'Select environment to deploy (prod, dev)'
         required: true
         default: 'dev'
         type: choice
         options:
           - dev
-          - qa
           - prod
 
 permissions:

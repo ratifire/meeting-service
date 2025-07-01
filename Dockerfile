@@ -6,7 +6,7 @@ WORKDIR /src
 
 # Copy package.json and .env dependencies
 COPY package.json .
-COPY .env.template ./.env
+COPY .env ./.env
 
 # Install necessary system packages and dependencies
 RUN apk add --no-cache \
@@ -19,6 +19,8 @@ RUN apk add --no-cache \
 # Copy the application code
 COPY app app
 COPY public public
+
+EXPOSE 3000
 
 # Set default command to start the application
 CMD ["npm", "start"]
