@@ -66,6 +66,8 @@ const Validate = require('./validate');
 const Host = require('./host');
 const Logs = require('./logs');
 const log = new Logs('server');
+const url = require('url');
+const querystring = require('querystring');
 
 // Custom Brand and buttons
 const config = safeRequire('./config');
@@ -229,7 +231,7 @@ const IPLookupEnabled = getEnvBoolean(process.env.IP_LOOKUP_ENABLED);
 // Survey URL
 const surveyEnabled = getEnvBoolean(process.env.SURVEY_ENABLED);
 const surveyURL = process.env.SURVEY_URL
-    || 'https://www.questionpro.com/t/AUs7VZq00L';
+    || 'https://dev.skillzzy.com/interviews/scheduled';
 
 // Redirect URL
 const redirectEnabled = getEnvBoolean(process.env.REDIRECT_ENABLED);

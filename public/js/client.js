@@ -675,13 +675,24 @@ const chunkSize = 1024; // 1024 * 16; // 16kb/s
 let isHostProtected = false; // Username and Password required to initialize room
 let isPeerAuthEnabled = false; // Username and Password required in the URL params to join room
 
+//QueryParam eventId
+const urlParams = new URLSearchParams(window.location.search);
+const eventId = urlParams.get('eventId');
+const role = urlParams.get('role');
+
+console.log(`urlParams`,urlParams);
+
 // survey
 let surveyActive = true; // when leaving the room give a feedback, if false will be redirected to newcall page
-let surveyURL = 'https://www.questionpro.com/t/AUs7VZq00L';
+let surveyURL = `https://dev.skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`;
 
 // Redirect on leave room
 let redirectActive = false;
-let redirectURL = '/newcall';
+let redirectURL = `https://dev.skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`;
+
+// Redirect on leave room || original
+// let redirectActive = true;
+// let redirectURL = 'https://dev.skillzzy.com/interviews/scheduled/20023?modal=feedbackInterviewModal&role=CANDIDATE';
 
 /**
  * Load all Html elements by Id
@@ -1229,8 +1240,8 @@ function handleServerInfo(config) {
     isPeerAuthEnabled = user_auth;
 
     // Get survey settings from server
-    surveyActive = survey.active;
-    surveyURL = survey.url;
+    // surveyActive = survey.active;
+    // surveyURL = survey.url;
 
     // Get redirect settings from server
     (redirectActive = redirect.active), (redirectURL = redirect.url);
@@ -11082,11 +11093,12 @@ function showAbout() {
  */
 function leaveRoom() {
     checkRecording();
-    if (surveyActive) {
-        leaveFeedback();
-    } else {
-        redirectOnLeave();
-    }
+    leaveFeedback();
+    // if (surveyActive) {
+    //     leaveFeedback();
+    // } else {
+    //     redirectOnLeave();
+    // }
 }
 
 /**
@@ -11098,18 +11110,20 @@ function leaveFeedback() {
         allowEscapeKey: false,
         showDenyButton: true,
         background: swBg,
-        imageUrl: images.feedback,
-        title: 'Leave a feedback',
-        text: 'Do you want to rate your MiroTalk experience?',
-        confirmButtonText: `Yes`,
-        denyButtonText: `No`,
+        position: 'bottom-end',
+        // imageUrl: images.feedback,
+        // title: 'Would you like to leave the room?',
+        // text: 'Do you want to rate your MiroTalk experience?',
+        confirmButtonText: `Leave Meeting`,
+        denyButtonText: `Cancel`,
         showClass: { popup: 'animate__animated animate__fadeInDown' },
         hideClass: { popup: 'animate__animated animate__fadeOutUp' },
     }).then((result) => {
         if (result.isConfirmed) {
             openURL(surveyURL);
         } else {
-            redirectOnLeave();
+            // redirectOnLeave();
+            return;
         }
     });
 }
