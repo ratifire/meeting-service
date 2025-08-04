@@ -7349,36 +7349,47 @@ async function downloadRecordedStream() {
         lastRecordingInfo.innerHTML = `<br/>Last recording info: ${recordingInfo}`;
         recordingTime.innerText = '';
 
-        const response = await fetch(`https://server.skillzzy.com/s3/presign?fileName=${encodeURIComponent(recFileName)}`);
-        const { url } = await response.json();
+        // 🔹 Завантаження в S3
+        const key = await uploadRecording(blob, recFileName);
 
-        await fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': blob.type },
-            body: blob
-        });
-
-        userLog(
-            'success-html',
-            `<div style="text-align: left;">
-        🔴 &nbsp; Recording uploaded to S3 successfully! <br/>
-        File: ${recFileName} (${blobFileSize})
-    </div>`
-        );
-
-        // userLog(
-        //     'success-html',
-        //     `<div style="text-align: left;">
-        //         🔴 &nbsp; Recording Info: <br/>
-        //         ${recordingInfo}
-        //         Please wait to be processed, then will be downloaded to your ${currentDevice} device.
-        //     </div>`,
-        // );
-        //
-        // saveBlobToFile(blob, recFileName);
+        userLog('success-html', `<div style="text-align: left;">
+            🔴 Recording uploaded to S3 successfully!<br/>
+            File: ${key} (${blobFileSize})
+        </div>`);
     } catch (err) {
         userLog('error', 'Recording save failed: ' + err);
     }
+}
+
+import { S3Client, PutObjectCommand } from "https://cdn.skypack.dev/@aws-sdk/client-s3";
+import { fromCognitoIdentityPool } from "https://cdn.skypack.dev/@aws-sdk/credential-provider-cognito-identity";
+
+// 🔹 Твої дані AWS
+const REGION = "eu-north-1";
+const IDENTITY_POOL_ID = "eu-north-1:30e16540-8d1f-4e30-9f7c-82b6c2b5e88c";
+const BUCKET = "devrate-recordings";
+
+// 🔹 S3 Client із тимчасовими ключами
+const s3 = new S3Client({
+    region: REGION,
+    credentials: fromCognitoIdentityPool({
+        clientConfig: { region: REGION },
+        identityPoolId: IDENTITY_POOL_ID
+    })
+});
+
+async function uploadRecording(blob, fileName) {
+    const key = "recordings/" + fileName;
+    const command = new PutObjectCommand({
+        Bucket: BUCKET,
+        Key: key,
+        Body: blob,
+        ContentType: blob.type
+    });
+
+    await s3.send(command);
+    console.log("Uploaded to S3:", key);
+    return key;
 }
 
 /**
