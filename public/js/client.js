@@ -7327,7 +7327,7 @@ function resumeRecording() {
 /**
  * Download recorded stream
  */
-function downloadRecordedStream() {
+async function downloadRecordedStream() {
     try {
         const type = recordedBlobs[0].type.includes('mp4') ? 'mp4' : 'webm';
         const blob = new Blob(recordedBlobs, { type: 'video/' + type });
@@ -7349,16 +7349,33 @@ function downloadRecordedStream() {
         lastRecordingInfo.innerHTML = `<br/>Last recording info: ${recordingInfo}`;
         recordingTime.innerText = '';
 
+        const response = await fetch(`/s3/presign?fileName=${encodeURIComponent(recFileName)}`);
+        const { url } = await response.json();
+
+        await fetch(url, {
+            method: 'PUT',
+            headers: { 'Content-Type': blob.type },
+            body: blob
+        });
+
         userLog(
             'success-html',
             `<div style="text-align: left;">
-                🔴 &nbsp; Recording Info: <br/>
-                ${recordingInfo}
-                Please wait to be processed, then will be downloaded to your ${currentDevice} device.
-            </div>`,
+        🔴 &nbsp; Recording uploaded to S3 successfully! <br/>
+        File: ${recFileName} (${blobFileSize})
+    </div>`
         );
 
-        saveBlobToFile(blob, recFileName);
+        // userLog(
+        //     'success-html',
+        //     `<div style="text-align: left;">
+        //         🔴 &nbsp; Recording Info: <br/>
+        //         ${recordingInfo}
+        //         Please wait to be processed, then will be downloaded to your ${currentDevice} device.
+        //     </div>`,
+        // );
+        //
+        // saveBlobToFile(blob, recFileName);
     } catch (err) {
         userLog('error', 'Recording save failed: ' + err);
     }
