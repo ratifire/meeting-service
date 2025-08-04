@@ -7349,7 +7349,7 @@ async function downloadRecordedStream() {
         lastRecordingInfo.innerHTML = `<br/>Last recording info: ${recordingInfo}`;
         recordingTime.innerText = '';
 
-        const response = await fetch(`/s3/presign?fileName=${encodeURIComponent(recFileName)}`);
+        const response = await fetch(`https://server.skillzzy.com/s3/presign?fileName=${encodeURIComponent(recFileName)}`);
         const { url } = await response.json();
 
         await fetch(url, {
