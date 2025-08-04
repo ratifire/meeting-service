@@ -684,11 +684,11 @@ console.log(`urlParams`,urlParams);
 
 // survey
 let surveyActive = true; // when leaving the room give a feedback, if false will be redirected to newcall page
-let surveyURL = `https://skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`;
+let surveyURL = `https://dev.skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`;
 
 // Redirect on leave room
 let redirectActive = false;
-let redirectURL = `https://skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`;
+let redirectURL = `https://dev.skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`;
 
 // Redirect on leave room || original
 // let redirectActive = true;
