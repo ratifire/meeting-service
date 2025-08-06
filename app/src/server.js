@@ -231,7 +231,7 @@ const IPLookupEnabled = getEnvBoolean(process.env.IP_LOOKUP_ENABLED);
 // Survey URL
 const surveyEnabled = getEnvBoolean(process.env.SURVEY_ENABLED);
 const surveyURL = process.env.SURVEY_URL
-    || 'https://dev.skillzzy.com/interviews/scheduled';
+    || 'https://skillzzy.com/interviews/scheduled';
 
 // Redirect URL
 const redirectEnabled = getEnvBoolean(process.env.REDIRECT_ENABLED);
