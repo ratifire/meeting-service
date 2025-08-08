@@ -682,13 +682,18 @@ const role = urlParams.get('role');
 
 console.log(`urlParams`,urlParams);
 
+let isDev = window.location.hostname === 'meeting-dev.skillzzy.com';
 // survey
 let surveyActive = true; // when leaving the room give a feedback, if false will be redirected to newcall page
-let surveyURL = `https://skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`;
+let surveyURL = isDev
+    ? `https://dev.skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`
+    : `https://skillzzy.com/interviews/scheduled/${encodeURIComponent(eventId)}?modal=feedbackInterviewModal&role=${encodeURIComponent(role)}`;
 
 // Redirect on leave room
 let redirectActive = false;
-let redirectURL = `https://skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`;
+let redirectURL = isDev
+    ? `https://dev.skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`
+    : `https://skillzzy.com/interviews/scheduled/${eventId}?modal=feedbackInterviewModal&role=${role}`;
 
 // Redirect on leave room || original
 // let redirectActive = true;
