@@ -36,6 +36,12 @@ jobs:
         run: |
           npm install
 
+      - name: Update SURVEY_URL and REDIRECT_URL in .env
+        run: |
+          DOMAIN=$([[ "${{ github.event.inputs.environment }}" == "prod" ]] && echo "skillzzy.com" || echo "dev.skillzzy.com")
+          sed -i "s|^SURVEY_URL=.*|SURVEY_URL=https://$DOMAIN/interviews/scheduled/|" .env
+          sed -i "s|^REDIRECT_URL=.*|REDIRECT_URL=https://$DOMAIN/interviews/scheduled/|" .env
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:

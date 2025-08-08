@@ -1396,6 +1396,8 @@ io.sockets.on('connect', async (socket) => {
 
     const peerCounts = Object.keys(peers[channel]).length;
 
+    console.log('SURVEY_URL =', process.env.SURVEY_URL);
+    console.log('surveyURL =', surveyURL);
     // Send some server info to joined peer
     await sendToPeer(socket.id, sockets, 'serverInfo', {
       peers_count: peerCounts,
