@@ -1,29 +1,29 @@
-'use strict';
+"use strict";
 
-const nodemailer = require('nodemailer');
-const Logs = require('../logs');
-const log = new Logs('NodeMailer');
+const nodemailer = require("nodemailer");
+const Logs = require("../logs");
+const log = new Logs("NodeMailer");
 
 // Email config
 const emailCfg = {
-    alert: process.env.EMAIL_ALERT === 'true' || false,
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    username: process.env.EMAIL_USERNAME,
-    password: process.env.EMAIL_PASSWORD,
-    send_to: process.env.EMAIL_SEND_TO,
-    // Room join params
-    https: process.env.HTTPS === 'true' || false,
-    server_port: process.env.PORT || 3000,
+  alert: process.env.EMAIL_ALERT === "true" || false,
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  username: process.env.EMAIL_USERNAME,
+  password: process.env.EMAIL_PASSWORD,
+  send_to: process.env.EMAIL_SEND_TO,
+  // Room join params
+  https: process.env.HTTPS === "true" || false,
+  server_port: process.env.PORT || 3000,
 };
 
 const transport = nodemailer.createTransport({
-    host: emailCfg.host,
-    port: emailCfg.port,
-    auth: {
-        user: emailCfg.username,
-        pass: emailCfg.password,
-    },
+  host: emailCfg.host,
+  port: emailCfg.port,
+  auth: {
+    user: emailCfg.username,
+    pass: emailCfg.password,
+  },
 });
 
 /**
@@ -32,7 +32,14 @@ const transport = nodemailer.createTransport({
  * @returns bool
  */
 function isConfigValid(config) {
-    return config.alert && config.host && config.port && config.username && config.password && config.send_to;
+  return (
+    config.alert &&
+    config.host &&
+    config.port &&
+    config.username &&
+    config.password &&
+    config.send_to
+  );
 }
 
 /**
@@ -42,27 +49,27 @@ function isConfigValid(config) {
  * @returns void
  */
 function sendEmailAlert(event, data) {
-    if (!isConfigValid(emailCfg)) return;
+  if (!isConfigValid(emailCfg)) return;
 
-    log.info('sendEMailAlert', {
-        event: event,
-        data: data,
-    });
+  log.info("sendEMailAlert", {
+    event: event,
+    data: data,
+  });
 
-    let subject = false;
-    let body = false;
+  let subject = false;
+  let body = false;
 
-    switch (event) {
-        case 'join':
-            subject = getJoinRoomSubject(data);
-            body = getJoinRoomBody(data);
-            break;
-        // ...
-        default:
-            break;
-    }
+  switch (event) {
+    case "join":
+      subject = getJoinRoomSubject(data);
+      body = getJoinRoomBody(data);
+      break;
+    // ...
+    default:
+      break;
+  }
 
-    if (subject && body) sendEmail(subject, body);
+  if (subject && body) sendEmail(subject, body);
 }
 
 /**
@@ -71,14 +78,14 @@ function sendEmailAlert(event, data) {
  * @param {string} body html
  */
 function sendEmail(subject, body) {
-    transport
-        .sendMail({
-            from: emailCfg.username,
-            to: emailCfg.send_to,
-            subject: subject,
-            html: body,
-        })
-        .catch((err) => log.error(err));
+  transport
+    .sendMail({
+      from: emailCfg.username,
+      to: emailCfg.send_to,
+      subject: subject,
+      html: body,
+    })
+    .catch((err) => log.error(err));
 }
 
 /**
@@ -87,8 +94,8 @@ function sendEmail(subject, body) {
  * @returns string
  */
 function getJoinRoomSubject(data) {
-    const { room_id } = data;
-    return `MiroTalk P2P - New user Join to Room ${room_id}`;
+  const { room_id } = data;
+  return `MiroTalk P2P - New user Join to Room ${room_id}`;
 }
 
 /**
@@ -97,19 +104,21 @@ function getJoinRoomSubject(data) {
  * @returns string
  */
 function getJoinRoomBody(data) {
-    const { peer_name, room_id, domain, os, browser } = data;
+  const { peer_name, room_id, domain, os, browser } = data;
 
-    const currentDataTime = getCurrentDataTime();
+  const currentDataTime = getCurrentDataTime();
 
-    const localDomains = ['localhost', '127.0.0.1'];
+  const localDomains = ["localhost", "127.0.0.1"];
 
-    const currentDomain = localDomains.some((localDomain) => domain.includes(localDomain))
-        ? `${emailCfg.https ? 'https' : 'http'}://${domain}:${emailCfg.server_port}`
-        : domain;
+  const currentDomain = localDomains.some((localDomain) =>
+    domain.includes(localDomain),
+  )
+    ? `${emailCfg.https ? "https" : "http"}://${domain}:${emailCfg.server_port}`
+    : domain;
 
-    const room_join = `${currentDomain}/join/`;
+  const room_join = `${currentDomain}/join/`;
 
-    return `
+  return `
         <h1>New user join</h1>
         <style>
             table {
@@ -156,12 +165,12 @@ function getJoinRoomBody(data) {
  * @returns string
  */
 function getCurrentDataTime() {
-    const currentTime = new Date().toLocaleString('en-US', log.tzOptions);
-    const milliseconds = String(new Date().getMilliseconds()).padStart(3, '0');
-    return `${currentTime}:${milliseconds}`;
+  const currentTime = new Date().toLocaleString("en-US", log.tzOptions);
+  const milliseconds = String(new Date().getMilliseconds()).padStart(3, "0");
+  return `${currentTime}:${milliseconds}`;
 }
 
 module.exports = {
-    sendEmailAlert,
-    emailCfg,
+  sendEmailAlert,
+  emailCfg,
 };

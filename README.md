@@ -108,16 +108,16 @@
 - https://p2p.mirotalk.com/join?room=test&name=mirotalk&audio=0&video=0&screen=0&hide=0&notify=0
 - https://mirotalk.up.railway.app/join?room=test&name=mirotalk&audio=0&video=0&screen=0&hide=0&notify=0
 
-    | Params | Type    | Description     |
-    | ------ | ------- | --------------- |
-    | room   | string  | Room Id         |
-    | name   | string  | User name       |
-    | audio  | boolean | Audio stream    |
-    | video  | boolean | Video stream    |
-    | screen | boolean | Screen stream   |
-    | hide   | boolean | Hide myself     |
-    | notify | boolean | Welcome message |
-    | token  | string  | jwt token       |
+  | Params | Type    | Description     |
+  | ------ | ------- | --------------- |
+  | room   | string  | Room Id         |
+  | name   | string  | User name       |
+  | audio  | boolean | Audio stream    |
+  | video  | boolean | Video stream    |
+  | screen | boolean | Screen stream   |
+  | hide   | boolean | Hide myself     |
+  | notify | boolean | Welcome message |
+  | token  | string  | jwt token       |
 
 > **Note**
 >
@@ -210,9 +210,9 @@ To embed a meeting within `your service or app` using an iframe, you can use the
 
 ```html
 <iframe
-    allow="camera; microphone; display-capture; fullscreen; clipboard-read; clipboard-write; web-share; autoplay"
-    src="https://p2p.mirotalk.com/newcall"
-    style="height: 100vh; width: 100vw; border: 0px;"
+  allow="camera; microphone; display-capture; fullscreen; clipboard-read; clipboard-write; web-share; autoplay"
+  src="https://p2p.mirotalk.com/newcall"
+  style="height: 100vh; width: 100vw; border: 0px;"
 ></iframe>
 ```
 
