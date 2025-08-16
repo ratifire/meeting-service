@@ -424,12 +424,10 @@ app.use((req, res, next) => {
     log.info("Forbidden: Access denied from this IP address", {
       clientIP: clientIP,
     });
-    res
-      .status(403)
-      .json({
-        error: "Forbidden",
-        message: "Access denied from this IP address.",
-      });
+    res.status(403).json({
+      error: "Forbidden",
+      message: "Access denied from this IP address.",
+    });
   }
 });
 
@@ -615,11 +613,9 @@ app.get("/join/", async (req, res) => {
 
     if (!room) {
       log.warn("/join/params room empty", room);
-      return res
-        .status(401)
-        .json({
-          message: "Direct Room Join: Missing mandatory room parameter!",
-        });
+      return res.status(401).json({
+        message: "Direct Room Join: Missing mandatory room parameter!",
+      });
     }
 
     if (!Validate.isValidRoomName(room)) {

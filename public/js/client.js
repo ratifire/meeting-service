@@ -3327,6 +3327,12 @@ async function loadLocalMedia(stream, kind) {
       myVideoWrap.appendChild(myPitchMeter);
       myVideoWrap.appendChild(myPeerName);
 
+      // Check if this is Bot Recorder and hide own video
+      if (myPeerName === "Bot Recorder") {
+        myVideoWrap.style.display = "none";
+        showRecordingIndicator();
+      }
+
       videoMediaContainer.appendChild(myVideoWrap);
       elemDisplay(myVideoWrap, false);
 
@@ -11761,6 +11767,10 @@ function showAbout() {
  * Leave the Room and create a new one
  */
 function leaveRoom() {
+  // Hide recording indicator if Bot Recorder is leaving
+  if (myPeerName === "Bot Recorder") {
+    hideRecordingIndicator();
+  }
   checkRecording();
   leaveFeedback();
   // if (surveyActive) {
