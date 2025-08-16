@@ -3327,14 +3327,21 @@ async function loadLocalMedia(stream, kind) {
       myVideoWrap.appendChild(myPitchMeter);
       myVideoWrap.appendChild(myPeerName);
 
-      // Check if this is Bot Recorder and hide own video
-      if (myPeerName === "Bot Recorder") {
-        myVideoWrap.style.display = "none";
-        showRecordingIndicator();
-      }
-
       videoMediaContainer.appendChild(myVideoWrap);
-      elemDisplay(myVideoWrap, false);
+
+      // Check if this is Bot Recorder and hide own video completely
+      if (isBotRecorder()) {
+        // For Bot Recorder, permanently hide the video wrap
+        myVideoWrap.style.display = "none !important";
+        myVideoWrap.style.visibility = "hidden";
+        myVideoWrap.style.opacity = "0";
+        myVideoWrap.style.position = "absolute";
+        myVideoWrap.style.left = "-9999px";
+        elemDisplay(myVideoWrap, false);
+        showRecordingIndicator();
+      } else {
+        elemDisplay(myVideoWrap, false);
+      }
 
       logStreamSettingsInfo("localVideoMediaStream", stream);
       attachMediaStream(myLocalMedia, stream);
@@ -7156,7 +7163,12 @@ async function handleToggleScreenException(reason, init) {
  */
 function setScreenSharingStatus(status) {
   if (!useVideo) {
-    status ? elemDisplay(myVideo, true, "block") : elemDisplay(myVideo, false);
+    // Don't show video if this is Bot Recorder
+    if (status && !isBotRecorder()) {
+      elemDisplay(myVideo, true, "block");
+    } else {
+      elemDisplay(myVideo, false);
+    }
   }
   initScreenShareBtn.className = status
     ? className.screenOff
@@ -9285,7 +9297,10 @@ function handleHideMe(isHideMeActive) {
     hideMeBtn.className = className.hideMeOn;
     playSound("off");
   } else {
-    elemDisplay(myVideoWrap, true, "inline-block");
+    // Don't show video if this is Bot Recorder
+    if (!isBotRecorder()) {
+      elemDisplay(myVideoWrap, true, "inline-block");
+    }
     hideMeBtn.className = className.hideMeOff;
     setColor(hideMeBtn, "var(--btn-bar-bg-color)");
     playSound("on");
@@ -11768,7 +11783,7 @@ function showAbout() {
  */
 function leaveRoom() {
   // Hide recording indicator if Bot Recorder is leaving
-  if (myPeerName === "Bot Recorder") {
+  if (isBotRecorder()) {
     hideRecordingIndicator();
   }
   checkRecording();
@@ -12345,4 +12360,12 @@ function hideRecordingIndicator() {
   if (indicator) {
     indicator.remove();
   }
+}
+
+/**
+ * Check if current user is Bot Recorder
+ * @returns {boolean} true if current user is Bot Recorder
+ */
+function isBotRecorder() {
+  return myPeerName === "Bot Recorder";
 }
